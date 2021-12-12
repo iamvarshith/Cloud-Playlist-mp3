@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Player</title>
+    <meta name="viewport" content="width=868">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.css'>
+    <link rel='stylesheet'
+          href='https://michael-zhigulin.github.io/mz-codepen-projects/Material%20Design%20UI%20Audio%20Player/font/font.css'>
+    <link rel="stylesheet" href="../static/home-css/style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .player {
+            position: relative;
+            background-color: #ffffff;
+
+            width: 60%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 90%;
+            border-radius: 3px;
+            left: 0;
+            border-bottom: 6px solid #3f51b5;
+            z-index: 1;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .icon {
+            max-height: 20vh;
+        }
+
+        .song_list {
+            width: 90% !important;
+        }
+    </style>
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+<div class="navbar">
+    <h2>Music Player</h2>
+    <div>
+        <ul>
+
+            {% if current_user.is_authenticated %}
+                <li class="nav-item"><a href="{{ url_for('home') }}">Home</a></li>
+
+                <li class="nav-item"><a href="{{ url_for('all_songs') }}">All Songs</a></li>
+                <li class="nav-item"><a href="{{ url_for('your_play_list') }}">Your Playlist</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+
+
+
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
+<div class="song_list">
+
+    <h2>Your Playlist</h2>
+
+    {% if songs  %}
+        {% for song in songs %}
+            <table>
+            <tr>
+                <th>Icon</th>
+                <th>Song Name</th>
+                <th>Artist</th>
+            </tr>
+            <tr>
+                <td><img class="icon" src="{{ song.icon_url }}"></td>
+                <td>{{ song.music_name }}</td>
+                <td>{{ song.artist_name }}</td>
+                <td><a href="/song/{{ song.song_id }}"><i class="fa fa-play" style="font-size:48px"></i></a></td>
+
+            </tr>
+             </table>
+        {% endfor %}
+    {% else %}
+       <h1>There are no songs in your playlist ! </h1>
+        <p>Add some hear <a href=" {{ url_for("all_songs") }}">All songs</a></p>
+    {% endif %}
+
+
+
+</div>
+
+</body>
+</html>
